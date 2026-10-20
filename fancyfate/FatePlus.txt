@@ -1,0 +1,437 @@
+#nop FatePLUS triggerset v4.14 by Chuckle (c) 2005
+#nop connection shit
+#alias {everwar} {#ses everwar everwar.dune.net 4242}
+#alias {fate} {#ses fate localhost 23}
+#alias {fate-n} {#ses fate fatemud.com 7004}
+#alias {hmd} {#math hpd {$hpii-$hpi};#if {$hpi==$hpii} {$blah FULL HP ($hpi/$hpii)};#if {$hpi <$hph} {$blah $hpd Hp Down --Blood-- ($hpi/$hpii) Blood heal bot on.;NBH};#if {$hpi <$hpii && $cbleed=0} {$blah $hpd HP down ($hpi/$hpii)}}} {G|prompt}
+#alias {loc} {#ses loc landsofchaos.net 3222}
+#var {blah} {gt}
+#nop misc shit
+#alias {setprompt} {prompt $B$0 $B$2*hn*/*hm*$R$2Hp $B$5*mn*/*mm*$R$5Mv $B$6*mnn*/*mmm*$R$6Ma $B$1[$R$3*xl*$B$1] $B$4*al*$R$4A *ckw*$Rkg *fi**tk*> }
+#alias {setpromptinsp} {prompt $B$0 $B$2*hn*/*hm*$R$2Hp $B$5*mn*/*mm*$R$5Mv $B$6*i*/*im*$R$6Ma $B$1[$R$3*xl*$B$1] $B$4*al*$R$4A *ckw*$Rkg *fi**tk*> }
+#alias {settitle} {title $0   $B$0-$R$4=$B$4P$B$6HA$B$4T$R$4=$B$0- $B$2A$B$0l$B$3a$B$2g$B$0h$R$3i $B$4Wa$R$4r$B$4lo$R$4r$B$4d}
+#alias {bpr} {#substitute { %0/%1Hp%2} {|XP gained: $xp|HP down: $hpd|MV down: $mvd| %0/%1Hp%2}}
+#alias {spr} {#unsub { %0/%1Hp%2}}
+#alias {version} {$chan Running FatePLUS triggerset v4.14 by Chuckle (c) 2005.}
+#alias {rr} {rescue}
+#action {'repair'} {repair all yes;nod}
+#action {'resc'} {rr}
+#action {You practice %0.} {practice %0}
+#action {You learn %0.} {practice %0}
+#action {%0 now follows you.} {gr %0}
+#action {%0 beckons for everyone to follow.} {fol %0}
+#action {%0 beckons for you to follow.} {fol %0}
+#nop files 'n stuff
+#alias {dmove} {#read movement}
+#alias {dbtrack} {#read dbtrack}
+#alias {repop} {#read repop}
+#alias {reload} {#message {variable};#kill;#read fatePLUS}
+#alias {relog} {#message {variable};#kill;#read log_prog}
+#nop pk stuff
+#alias {spk} {#variable autokill 1}
+#alias {bf} {#read bloodfollow}
+#alias {dscan} {#read dscan}
+#nop wearoff/spells trigs
+#action {^You can't cast a spell this soon after your last action!} {!} {5}
+#action {^You charge towards} {!} {5}
+#action {^You lost your concentration.} {!} {5}
+#action {^Your heal spell was succesful!} {!} {5}
+#nop bleedshit/xp trigs
+#alias {checkbleed} {#if {$hpi <$hph && $cbleed=0} {$chan -- Bleeding --;#math cbleed 1};#if {$hpi>$hph && $cbleed=1} {$chan -- Stopped Bleeding --;#math cbleed 0};#if {$hpi == $hpii && $cfull=0} {$chan -- FULL --;#math cfull 1};#if {$hpi<$hpii && $cfull=1} {#math cfull 0}}
+#alias {pxp} {gt I've gained $xp XP since last reset.}
+#alias {rsp} {say Markus reporting: $hps pct HP, $mvs pct MV, $mas pct MANA ($hpi/$mvi/$mai).}
+#alias {rxp} {#var xp 0}
+#action {You've gained %0 experience for the kill, and %1 for fighting.} {#math xp {$xp+$0+$1}} {5}
+#nop prompt triggers (IMPORTANT NOT TO CHANGE IT MUCH!!)
+#action {^[%1]  %2/%3Hp %4/%5Mv %6/%7Ma [%8] %9A} {#math hpi $2;#math hpii $3;#math mvi $4;#math mvii $5;#math mai $6;#math maii $7;#math xp2lvl $8;#math align $9;#math hpd {$3-$2};#math hps {100*$2/$3};#math mvs {100*$4/$5};#math mas {100*$6/$7};#math hpst {100-$hps};#math hph {$3/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^+[%1]  %2/%3Hp %4/%5Mv %6/%7Ma [%8] %9A} {#math hpi $2;#math hpii $3;#math mvi $4;#math mvii $5;#math mai $6;#math maii $7;#math xp2lvl $8;#math align $9;#math hpd {$3-$2};#math hps {100*$2/$3};#math mvs {100*$4/$5};#math mas {100*$6/$7};#math hpst {100-$hps};#math hph {$3/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^+[%1] (Casting)  %2/%3Hp %4/%5Mv %6/%7Ma [%8] %9A} {#math hpi $2;#math hpii $3;#math mvi $4;#math mvii $5;#math mai $6;#math maii $7;#math xp2lvl $8;#math align $9;#math hpd {$3-$2};#math hps {100*$2/$3};#math mvs {100*$4/$5};#math mas {100*$6/$7};#math hpst {100-$hps};#math hph {$3/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^+ %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^* %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^+(Casting)  %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^ %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^|%0| %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#action {^|%0|+ %1/%2Hp %3/%4Mv %5/%6Ma [%7] %8A %9kg} {#math hpi $1;#math hpii $2;#math mvi $3;#math mvii $4;#math mai $5;#math maii $6;#math xp2lvl $7;#math align $8;#math weight $9;#math hpd {$2-$1};#math hps {100*$1/$2};#math mvs {100*$3/$4};#math mas {100*$5/$6};#math hpst {100-$hps};#math hph {$2/2};#math mvd {$mvii-$mvi};checkbleed} {5}
+#nop gtell trigs
+#action {tells the group 'fly'} {fly}
+#action {tells the group 'hmd'} {hmd}
+#action {tells the group 'med'} {med}
+#action {tells the group 'sit'} {med}
+#action {tells the group 'up'} {stand}
+#nop substitutes
+#substitute {%0(almost broken)%1} {%0(almost broken)%1   <---- needs FIX!!!}
+#substitute {%0(badly damaged)%1} {%0(badly damaged)%1   <---- needs FIX!!}
+#substitute {%0(damaged)%1} {%0(damaged)%1   <---- needs REPAIR!!}
+#substitute {%0(fair condition)%1} {%0(fair condition)%1   <---- needs FIX!!}
+#substitute {%0(falling apart)%1} {%0(falling apart)%1   <---- needs FIX!!!}
+#substitute {%0(good condition)%1} {%0(good condition)%1   <---- needs REPAIR!}
+#substitute {%0(poor condition)%1} {%0(poor condition)%1   <---- needs FIX!!!}
+#nop variables
+#variable {cbleed} {0}
+#variable {cfull} {0}
+#variable {message} {0}
+#variable {xp} {0}
+#variable {bp} {0}
+#variable {chan} {gt}
+#nop highlight shit
+#highlight {light red} {needs FIX!!!}
+#highlight {yellow} {needs REPAIR!}
+#highlight {light red} {which will wear off at any moment}
+#highlight {yellow} {which will wear off in a few hours}
+#highlight {light cyan} {which will wear off in about a day}
+#highlight {light blue} {which will wear off in a day or two}
+#highlight {light blue} {which will wear off in about a day or two}
+#highlight {green} {which will wear off in about a quarter of a day}
+#highlight {light green} {which will wear off in about half a day}
+#highlight {brown} {which will wear off soon}
+#highlight {red} {which will wear off very soon}
+#highlight {light magenta} {which won't wear off for many days!}
+#highlight {light cyan} {(godly)}
+#highlight {cyan} {(perfect)}
+#highlight {light green} {(master)}
+#highlight {yellow} {(superb)}
+#highlight {brown} {(talented)}
+#highlight {red} {(adept)}
+#highlight {red} {(skilled)}
+#highlight {light red} {(good)}
+#highlight {light red} {(moderate)}
+#highlight {white} {(novice)}
+#highlight {white} {(horrible)}
+#nop gtell trigs
+#action {tells the group 'fly'} {fly}
+#action {tells the group 'hmd'} {hmd}
+#action {tells the group 'med'} {meditate}
+#action {tells the group 'sit'} {meditate}
+#action {tells the group 'up'} {stand}
+#action {tells the group 'swap'} {swap}
+#action {tells the group 'land'} {land}
+#action {Your spell failed...} {!}
+#action {%0 refuses to help you.} {!} {5}
+#action {%0 is having tea} {!} {5}
+#action {Because %0 is feeling} {!} {5}
+#action {%0 is angered} {!} {5}
+#action {^%0 is bothered} {!} {5}
+#action {^%0 is drinking beer} {!} {5}
+#action {You manage to wiggle free and stand up!} {gt Stood Up}
+#action {^You bash %0, but trip} {gt ::G_R_0_U_N_D_F_I_G_H_T :: %0} {0}
+#action {^You bash +* %6 *+, but trip} {gt -->>G_r_o_u_n_D_F_i_g_h_T<<-- +* %6 *+} {0}
+#action {Your spell succesfully blinds +* %6 *+} {gt -> BLINDED +* %6 *+ <-}
+#action {Too soon!!} {!} {0}
+#action {%0 won't let you get away!} {flee} {0}
+#action {^You fail to find a pause} {flee} {0}
+#action {You hear +* %6 *+} {get all corpse} {0}
+#action {++[Group]: %0 just got killed by %9!} {get all corpse} {0}
+#action {*Clan Notify: %9 just killed %8!} {get all corpse} {0}
+#action {^*Clan Notify: %9 just got} {get all corpse} {0}
+#highlight {red} {YOU CANNOT TACKLE THAT TYPE OF CREATURE}
+#highlight {red} {You miss the tackle and almost fall on the ground}
+#highlight {red} {You run into your victims weapon}
+#highlight {red} {The %0 is opened from the other side}
+#highlight {red} {You feel as if %0 is watching you!!}
+#highlight {red} {+* %6 *+}
+#highlight {red} {>>> +* %6 *+ is here, fighting you! <<<}
+#highlight {red} {>>> %0 is here, fighting you! <<<}
+#highlight {red} {!> !> !> BLINDED a %2 <! <! <!}
+#highlight {light green} {arrives}
+#highlight {light green} {>>> %0 rescues %7 <<<}
+#highlight {light green} {>>> +* %6 *+ rescues +* %6 *+ <<<}
+#highlight {light green} { +* %6 *+ is Casting!!!}
+#highlight {magenta} {>-- +* %6 *+ Resisted --<}
+#highlight {yellow} {Run away! You flee head over heels!}
+#highlight {yellow} {You sense a hidden exit somewhere in this room.}
+#highlight {yellow} {You can't go any further in that direction}
+#highlight {yellow} {You walk %8}
+#highlight {yellow} {You fly %8}
+#highlight {yellow} {You swim %8}
+#highlight {yellow} {You climb %8}
+#highlight {light green} {<------Backstabbing------>}
+#highlight {light green} {<------Circling------>}
+#high {red} {--==> INTERRUPTED <==--}
+#substitute {You MUTILATE %5 with your masterful %1!} {You <-MUTILATE-> %5 with your masterful %1!}
+#substitute {You maim %5 with your skillful %1} {You <<MAIM>> %5 with your skillful %1!}
+#substitute {You mangle %5 with your stunning %1} {You <=MANGLE=> %5 with your stunning %1!}
+#substitute {You sit down cross-legged and begin meditating.} {You meditate.}
+#substitute {%0 rescues %7} {>>> %0 rescues %7 <<<}
+#substitute {+* %6 *+ rescues +* %6 *+} {>>> +* %6 *+ rescues +* %6 *+ <<<}
+#substitute {You begin to look for tracks...} {Tracking}
+#substitute {You find some footprints of some sort, but aren't good enough to determine} {No Tracks}
+#substitute {if they are your victim's, how old they are, or where they lead...} {here}
+#substitute {You scan all directions around you:} {Scanning:}
+#substitute {^You can't cast %0} {Too soon!!}
+#substitute {^+* %6 *+ begins to utter} { +* %6 *+ is Casting!!!}
+#substitute {OUCH! You just} {--==> INTERRUPTED <==--}
+#substitute {%0 is here, fighting you!} {>>> %0 is here, fighting you! <<<}
+#substitute {+* %6 *+ is here, fighting you!} {>>> +* %6 *+ is here, fighting you! <<<}
+#substitute {^+* %6 *+ resisted} {>-- +* %6 *+ Resisted --<}
+#substitute {^%8pretty close by%9} {%8 - 1 - %9}
+#substitute {^%8fairly far off%9} {%8 - 2 - %9}
+#substitute {^%8long ways off%9} {%8 - 3 - %9}
+#substitute {>>> [ Better at %4! ] <<<} {>>> [ %4 has Improved ] <<<}
+#substitute {You don't have enough magic of the right element and level to cast that} {No mana to cast that spell!}
+#substitute {^You block a %9's attack with your shield.} {You Defend a %9's attack with your shield.}
+#substitute {You swoop down from the air and attack %5 %0} {You lost your balance!}
+#substitute {Your spell succesfully blinds a %2!} {!> !> !> BLINDED a %2 <! <! <!}
+#substitute {You begin to stealthily move behind your target...} {<------Backstabbing------>}
+#substitute {You begin to circle around your victim...} {<------Circling------>}
+#substitute {The tracks of %2 appear to leave the area heading %3!} {The medium tracks of %2 appear to leave the area heading %3!}
+#alias {abash} {0011;0012;0013;0014} {1}}
+#alias {0011} {#action {+* %6 *+ is here} {bash 1.evil;scan} {1}}
+#alias {0012} {#action {+* %6 *+ arrives} {bash 1.evil;scan} {1}}
+#alias {0013} {#action {+* %6 *+ Flies} {bash 1.evil;scan} {1}}
+#alias {0014} {#action {+* %6 *+ Sneaks} {bash 1.evil;scan} {1}}
+#alias {abashoff} {0001;0002;0003;0004} {1}
+#alias {0001} {#unaction {+* %6 *+ is here}}
+#alias {0002} {#unaction {+* %6 *+ arrives}}
+#alias {0003} {#unaction {+* %6 *+ Flies}}
+#alias {0004} {#unaction {+* %6 *+ Sneaks}}
+#alias {sb} {#action {They aren't here.} {bash 1.evil} {0}}
+#alias {sboff} {#unaction {They aren't here.}}
+#alias {xp} {#action {^%0 sacrifices the corpse} {stand}}
+#alias {xpoff} {#unaction {^%0 sacrifices the corpse}}
+#alias {loot} {0023;0024;0025}
+#alias {0023} {#action {You hear +* %6 *+} {get all corpse} {0}}
+#alias {0024} {#action {++[Group]: %0 just got killed by %9!} {get all corpse} {0}}
+#alias {0025} {#action {*Clan Notify: %9 just killed %8!} {get all corpse} {0}}
+#alias {0025} {#action {^*Clan Notify: %9 just got} {get all corpse} {0}}
+#alias {lootoff} {0020;0021;0022}
+#alias {0020} {#unaction {You hear +* %6 *+}}
+#alias {0021} {#unaction {++[Group]: %0 just got killed by %9!}}
+#alias {0022} {#unaction {*Clan Notify: %9 just killed %8!}}
+#alias {0026} {#unaction {^*Clan Notify: %9 just got}}
+#alias {find} {214;215;216;217;218;219;5000}
+#alias {214} {#unaction {^The %1 tracks of %2 appear to leave the area heading %3!} {gtell <<-%1->> Tracks of %2 leave [[%3]]!} {0}}
+#alias {215} {#unaction {^The %1 tracks of %2 appear to leave the area right above you!} {gtell <<-%1->> Tracks of %2 leave [[UP]]!} {0}}
+#alias {216} {#unaction {^The %1 tracks of %2 appear to leave the area right below you!} {gtell <<-%1->> Tracks of %2 leave [[DOWN]]!} {0}}
+#alias {217} {#unaction {^The tracks of %2 appear to leave the area heading %4!} {gtell <<-medium->> Tracks of %2 leave the area [[%4]]!} {0}}
+#alias {218} {#unaction {^The tracks of %2 appear to leave the area right above you!} {gtell <<-medium->> Tracks of %2 leave the area [[UP]]!} {0}}
+#alias {219} {#unaction {^The tracks of %2 appear to leave the area right below you!} {gtell <<medium->> Tracks of %2 leave the area [[DOWN]]!} {0}}
+#alias {5000} {#unaction {You tell the group '<<-%1->> Tracks of %2 leave [[%3]]!'} {%3} {0}}
+#alias {findoff} {221;222;223;224;225;226;5001}
+#alias {221} {#unaction {^The %1 tracks of %2 appear to leave the area heading %3!} {0}}
+#alias {222} {#unaction {^The %1 tracks of %2 appear to leave the area right above you!} {0}}
+#alias {223} {#unaction {^The %1 tracks of %2 appear to leave the area right below you!} {0}}
+#alias {224} {#unaction {^The tracks of %2 appear to leave the area heading %4!} {0}}
+#alias {225} {#unaction {^The tracks of %2 appear to leave the area heading right above you!} {0}}
+#alias {226} {#unaction {^The tracks of %2 appear to leave the area heading right below you!} {0}}
+#alias {5001} {#unaction {You tell the group' <<-%1->> Tracks of %2 leave [[%3]]'} {0}}
+#alias {chase} {200;201;202;203} {1}
+#alias {200} {#action {^%0%1+* %6 *+%3%4 north} {north} {0}}
+#alias {201} {#action {^%0%1+* %6 *+%3%4 east} {east} {0}}
+#alias {202} {#action {^%0%1+* %6 *+%3%4 south} {south} {0}}
+#alias {203} {#action {^%0%1+* %6 *+%3%4 west} {west} {0}}
+#alias {chaseoff} {210;211;212;213} {1}
+#alias {210} {#unaction {^%0%1+* %6 *+%3%4 north}}
+#alias {211} {#unaction {^%0%1+* %6 *+%3%4 east}}
+#alias {212} {#unaction {^%0%1+* %6 *+%3%4 south}}
+#alias {213} {#unaction {^%0%1+* %6 *+%3%4 west}}
+#alias {fo} {100;101;102;103;104;105} {1}
+#alias {100} {#action {You see a trail of blood going north.} {north} {0}}
+#alias {101} {#action {You see a trail of blood going south.} {south} {0}}
+#alias {102} {#action {You see a trail of blood going east.} {east} {0}}
+#alias {103} {#action {You see a trail of blood going west.} {west} {0}}
+#alias {104} {#action {You see a trail of blood going up.} {up} {0}}
+#alias {105} {#action {You see a trail of blood going down.} {down} {0}}
+#alias {fooff} {110;111;112;113;114;115} {1}
+#alias {110} {#unaction {You see a trail of blood going north.}}
+#alias {111} {#unaction {You see a trail of blood going south.}}
+#alias {112} {#unaction {You see a trail of blood going east.}}
+#alias {113} {#unaction {You see a trail of blood going west.}}
+#alias {114} {#unaction {You see a trail of blood going up.}}
+#alias {115} {#unaction {You see a trail of blood going down.}}
+#alias {evil} {glance 1.evil;glance 2.evil;glance 3.evil;glance 4.evil;glance 5.evil}
+#nop highlight damage
+#highlight {light blue} {mangle}
+#highlight {light blue} {<=MANGLE=>}
+#highlight {light blue} {maim}
+#highlight {light blue} {<<MAIM>>}
+#highlight {light blue} {MUTILATE}
+#highlight {light blue} {<-MUTILATE->}
+#highlight {light blue} {DecimatE}
+#highlight {light blue} {DEVASTATE}
+#highlight {light blue} {<<< AnnihilatE >>>}
+#highlight {light blue} {>-> EvIsCeRaTe <-<}
+#highlight {light blue} {<-<--< LiQuIfY >-->->}
+#highlight {light blue} {[ [ [ ERADICATE ] ] ]}
+#highlight {light blue} {[-[--[ ObLiTeRaTe ]--]-]}
+#highlight {light blue} {... .. .V a P o R i Z e. .. ...}
+#highlight {light blue} {. ._ .__a T o M i Z e__. _. .}
+#highlight {light blue} {_. __. ___.i.o.N.I.Z.e.s.___ .__ ._}
+
+#action {^%0 has several wounds and looks %4.} {gt %0 is HURT and looks %4.} {0}
+#action {^%0 is wounded and looks %4.} {gt %0 is HURT and looks %4.} {0}
+#action {^%0 is majorly wounded and looks %4.} {gt %0 is BAD and looks %4.} {0}
+#action {^%0 is at the brink of death and looks %4.} {gt %0 is <->AWFUL<-> and looks %4.} {0}
+#nop
+#alias VK_NUMPAD3 Kick 1.GOOD
+#alias VK_NUMPAD1 FLEE
+#alias VK_NUMPAD2 s
+#alias VK_NUMPAD4 w
+#alias VK_NUMPAD5 BASH GOOD
+#alias VK_NUMPAD6 e
+#alias VK_NUMPAD7 STAND
+#alias VK_NUMPAD8 n
+#alias VK_NUMPAD9 fly
+#GH mobs
+#alias {ghon} {1000;1001;1002;1003;1004} {1}
+#alias {1000} {#action {A nice fat pig like creature sniffs the ground.} {backstab boar} {0}}
+#alias {1001} {#action {A deer wanders the forest in search of food.} {backstab deer} {0}}
+#alias {1002} {#action {A proud stag with large pointed antlers roams the forest.} {backstab stag} {0}}
+#alias {1003} {#action {A large brown bear advances towards you.} {backstab bear} {0}}
+#alias {1004} {#action {An amazon huntress searches the forest for animals to kill for food. (Hidden)} {backstab amazon} {0}}
+#alias {ghoff} {1005;1006;1007;1008;1009}
+#alias {1005} {#unaction {A nice fat pig like creature sniffs the ground.}}
+#alias {1006} {#unaction {A deer wanders the forest in search of food.}}
+#alias {1007} {#unaction {A proud stag with large pointed antlers roams the forest.}}
+#alias {1008} {#unaction {A large brown bear advances towards you.}}
+#alias {1009} {#unaction {An amazon huntress searches the forest for animals to kill for food. (Hidden)}}
+#Haunted mobs
+#alias {haunted} {1010;1011;1012;1013;1014;1015;1016}
+#alias {1010} {#action {A small spider weaves it's web in the forest.} {backstab small} {0}}
+#alias {1011} {#action {A large spider moves silently between the trees.} {backstab large} {0}}
+#alias {1012} {#action {A wood elf is hunting for ettercaps.} {backstab wood} {0}}
+#alias {1013} {#action {A huge spider approaches you menacingly.} {backstab huge} {0}}
+#alias {1014} {#action {A huge spider is shimmering in and out of existence. (Hidden)} {backstab phase} {0}}
+#alias {1015} {#action {A forest trapper is trying to surprise an unlucky adventurer. (Hidden)} {backstab trapper} {0}}
+#alias {1016} {#action {A water sprite is here, dancing on the well. (Flying)} {backstab sprite} {0}}
+#alias {hauntedoff} {1017;1018;1019;1020;1021;1022;1023}
+#alias {1017} {#unaction {A small spider weaves it's web in the forest.}}
+#alias {1018} {#unaction {A large spider moves silently between the trees.}}
+#alias {1019} {#unaction {A wood elf is hunting for ettercaps.}}
+#alias {1020} {#unaction {A huge spider approaches you menacingly.}}
+#alias {1021} {#unaction {A huge spider is shimmering in and out of existence. (Hidden)}}
+#alias {1022} {#unaction {A forest trapper is trying to surprise an unlucky adventurer. (Hidden)}}
+#alias {1023} {#unaction {A water sprite is here, dancing on the well. (Flying)}}
+#Tinkers mobs
+#alias {tinkers} {1024;1025;1026;1027;1028;1029;1030;1031;1032;1033;1034;1035;1036}
+#alias {1024} {#action {A young gnome is forced to run errands for all the older gnomes.} {backstab 1.gnome} {0}}
+#alias {1025} {#action {An apprentice tinker is trying to repair some small knives and hammers.} {backstab apprentice} {0}}
+#alias {1026} {#action {Limm is working on one of his new inventions.} {backstab limm} {0}}
+#alias {1027} {#action {Azon is working on a new sort of defensive clothing.} {backstab azon} {0}}
+#alias {1028} {#action {Elic is busy working on his new forge.} {backstab elic} {0}}
+#alias {1029} {#action {Josh sets something on fire and ducks for cover behind a glass screen.} {backstab josh} {0}}
+#alias {1030} {#action {A young gnome is carrying an armload of wood towards the workers.} {backstab 1.gnome} {0}}
+#alias {1031} {#action {A broad shouldered gnome is constructing a large vessel.} {backstab broad} {0}}
+#alias {1032} {#action {Jedra oversees the construction of a large vessel.} {backstab jedra} {0}}
+#alias {1033} {#action {A short gnome with spectacles and a white coat is working on an experiment.} {backstab gnome} {0}}
+#alias {1034} {#action {Gnimsh, the head research gnome, warns you not to touch anything.} {backstab gnimsh} {0}}
+#alias {1035} {#action {A gnome is throwing around some half finished things in search of something.} {backstab 1.} {0}}
+#alias {1036} {#action {An apprentice tinker is stuck with mending pots and pans.} {backstab 1.} {0}}
+#alias {tinkersoff} {1037;1038;1039;1040;1041;1042;1043;1044;1045;1046;1047;1048;1049}
+#alias {1037} {#unaction {A young gnome is forced to run errands for all the older gnomes.}}
+#alias {1038} {#unaction {An apprentice tinker is trying to repair some small knives and hammers.}}
+#alias {1039} {#unaction {Limm is working on one of his new inventions.}}
+#alias {1040} {#unaction {Azon is working on a new sort of defensive clothing.}}
+#alias {1041} {#unaction {Elic is busy working on his new forge.}}
+#alias {1042} {#unaction {Josh sets something on fire and ducks for cover behind a glass screen.}}
+#alias {1043} {#unaction {A young gnome is carrying an armload of wood towards the workers.}}
+#alias {1044} {#unaction {A broad shouldered gnome is constructing a large vessel.}}
+#alias {1045} {#unaction {Jedra oversees the construction of a large vessel.}}
+#alias {1046} {#unaction {A short gnome with spectacles and a white coat is working on an experiment.}}
+#alias {1047} {#unaction {Gnimsh, the head research gnome, warns you not to touch anything.}}
+#alias {1048} {#unaction {A gnome is throwing around some half finished things in search of something.}}
+#alias {1049} {#unaction {An apprentice tinker is stuck with mending pots and pans.}}
+#alias {xpxp} {1050;1051;1052;1053;1054;1055}
+#alias {1050} {#action {You are off-balance from your last maneuver} {!}}
+#alias {1051} {#action {You join %0's fight!} {kick;circle}}
+#alias {1052} {#action {You failed to circle your opponent.} {gt Failed Circle;circle}}
+#alias {1053} {#action {>>> %0 rescues you! <<<} {assist %0}}
+#alias {1054} {#action {You hear} {look}}
+#alias {1055} {#action {You must be fighting to circle.} {kick;circle}}
+#alias {xpxpoff} {1056;1057;1058;1059;1060;1061}
+#alias {1056} {#unaction {You are off-balance from your last maneuver}}
+#alias {1057} {#unaction {You join %0's fight!}}
+#alias {1058} {#unaction {You failed to circle your opponent.}}
+#alias {1059} {#unaction {>>> %0 rescues you! <<<}}
+#alias {1060} {#unaction {You hear}}
+#alias {1061} {#unaction {You must be fighting to circle.}}
+#high {red} {cringe}
+#high {red} {cry out}
+#high {red} {injure}
+#action {[ %0 has Improved ]} {gt %0 Improved!}
+#high {light blue} {[Clantalk]:}
+#high {blue} {- 3 -}
+#high {yellow} {- 2 -}
+#high {red} {- 1 -}
+#nop No Blood Heal Bot
+#alias {NBH} {NBH1;NBH2}
+#alias {NBH1} {#action {You feel healthy and refreshed.} {gh}}
+#alias {NBH2} {gh;#action {You tell the group '-- FULL --'} {NBHOff}
+#alias {NBHOff} {NBHOff1;NBHOff2}
+#alias {NBHOff1} {#unaction {You feel healthy and refreshed.}}
+#alias {NBHOff2} {#unaction {You tell the group '-- FULL --'}}
+#alias {ry} {repair all yes}
+#alias {awfulon} {#action {[Oppnt: Awful]} {flee}}
+#alias {awfuloff} {#unaction {[Oppnt: Awful]}}
+#nop Paladin Alias'
+#alias {sanc} {c 'sanctuary'}
+#alias {wb} {c 'war blessing'}
+#alias {ele} {c 'elemental strength'}
+#alias {loh} {c 'lay on hands'}
+#alias {di} {c 'detect invisible'}
+#alias {dh} {c 'detect hidden'}
+#alias {pro} {c 'protection'}
+#alias {blur} {c 'blur'}
+#alias {def} {c 'holy deflection'}
+#alias {te} {c 'turn evil'}
+#alias {tu} {c 'turn undead'}
+#alias {de} {c 'dispel evil'}
+#alias {cp} {c 'combat power'}
+#alias {cb} {c 'cure blindness'}
+#alias {heal} {c 'healing'}
+#alias {wobash} {#action {+* %0 %1 *+ exits from a magic portal into this world.} {bash %1}}
+#alias {wobashoff} {#unaction {+* %0 %1 *+ exits from a magic portal into this world.}}
+#action {Your powerful bash sends +* %0 %1 *+ sprawling onto the ground!} {pe}
+#action {The tingling of your blood stopped.} {gt Genesis Gone Cast it bitch!}
+#action {A skin from a tiny worm like creature crumbles into the earth.} {get all;eat ezr}
+#sub {The aura around your body fades.} {Sanctuary Gone!!!}
+#high {red} {Sanctuary Gone!!!}
+#sub {The deflection has worn off.} {<><><><<Deflection Gone>><><><>}
+#high {red} {<><><><<Deflection Gone>><><><>}
+#sub {The hunger for Blood has left you...} {<<<<<<<<Bloodlust Gone>>>>>>>>}
+#high {red} {<<<<<<<<Bloodlust Gone>>>>>>>>}
+#action {Your appearance changes, making you look like %1 %0!} {gt I have changed my form to a %0!}
+#sub {You lash out hard and fast with your weapon!} {<><><><><CrItIcAl HiT><><><><>}
+#high {green} {<><><><><CrItIcAl HiT><><><><>}
+#nop LOC
+#alias {sacon} {#action {You hear %0 death cry.} {get all corpse;med;sac corpse;stand}}
+#alias {sacoff} {#unaction {You hear %0 death cry.}}
+#nop Spell Up - Priest
+#alias {spup} {spup1;di;#action {Your eyes glow blue momentarily, allowing you to see the invisible.} {dh}}
+#alias {spup1} {spup2;#action {You can now see the hidden world.} {pro}}
+#alias {spup2} {spup3;#action {A small barrier of shimmering energy forms around you.} {blur}}
+#alias {spup3} {spup4;spup11;#action {Your appearance slightly changes, making it hard to focus on you.} {ele}}
+#alias {spup11} {#action {Your muscles are enlarged by the powers of the earth.} {wb}}
+#alias {spup4} {spup5;#action {You are blessed by the Gods!} {stone}}
+#alias {spup5} {spup6;#action {Your skin hardens and becomes solid as rock.} {ms}}
+#alias {spup6} {spup7;#action {Fields of blazing ENERGY form around you.} {gen}}
+#alias {spup7} {spup8;#action {You feel your blood tingle!} {globe}}
+#alias {spup8} {spup9;#action {A strange GLOBE surrounds you.} {anti}}
+#alias {spup9} {spup10;#action {A Shield of Mystical POWERS surrounds you.} {wc}}
+#alias {spup10} {#action {You feel more confident after Domino's chant to the gods.} {spupoff}}
+#alias {spupoff} {#unaction {Your eyes glow blue momentarily, allowing you to see the invisible.};#unaction {You can now see the hidden world.};#unaction {A small barrier of shimmering energy forms around you.};#unaction {Your appearance slightly changes, making it hard to focus on you.};#unaction {You are blessed by the Gods!};#unaction {Your skin hardens and becomes solid as rock.};#unaction {Fields of blazing ENERGY form around you.};#unaction {You feel your blood tingle!};#unaction {A strange GLOBE surrounds you.};#unaction {A Shield of Mystical POWERS surrounds you.};#unaction {You feel more confident after Domino's chant to the gods.};#unaction {Your muscles are enlarged by the powers of the earth.};gt Spell Up of self has ended!}}}
+#nop Bash Script
+#alias {pracbash} {pracbash1;#action {^ %0/%1Hp %2/%3Mv} {bash 1.}}
+#alias {pracbash1} {pracbash2;#action {[Oppnt: Hurt] >} {#unaction {[Oppnt: Hurt] >};cri 1.}
+#alias {pracbash2} {pracbash3;#action {A %0 looks a lot better after your heal spell!} {#action {[Oppnt: Hurt] >} {#unaction {[Oppnt: Hurt] >};cri 1.}}
+#alias {pracbash3} {pracbash4;#action {No mana to cast that spell!} {flee;pracbashoff}
+#alias {pracbash4} {pracbash5;#action {A pulsating emerald powerstone has been charged to its maximum capacity!} {stand;w;hh}}
+#alias {pracbash5} {pracbash6;#action {You are immensely healed by the earthen powers.} {ndesdwwwwwnnw;pracbash}}
+#alias {pracbash6} {#action {Run away!  You flee head over heels!} {ssseeeeeunwuse;med}}
+#alias {pracbashoff} {#unaction {^ %0/%1Hp %2/%3Mv};#unaction {[Oppnt: Hurt] >};#unaction {A %0 looks a lot better after your heal spell!}}
+#alias {pracbashoff1} {#unaction {A pulsating emerald powerstone has been charged to its maximum capacity!};#unaction {You are immensely healed by the earthen powers.};#unaction {Run away!  You flee head over heels!};#unaction {No mana to cast that spell!}}
+#nop Spells Practice
+#var {spellimps} {0}
+#var {totalcast} {0}
+#alias {setmsg %0} {#var {spellmsg} {$0}}
+#alias {setgem %0} {#var {gemstone} {$0}}
+#alias {setcast %0} {#var {spellcast} {$0}} 
+#alias {pracspell} {pracspell1;#action {$spellmsg} {c '$spellcast'}}
+#alias {pracspell1} {pracspell2;#action {No mana to cast that spell!} {e;med;ImpReport}}
+#alias {pracspell2} {pracspell3;#action {A pulsating $gemstone powerstone has been charged to its maximum capacity!} {stand;w;c '$spellcast'}}
+#alias {pracspell3} {pracspell4;#action {You tell the group '$spellcast Improved!'} {#math spellimps {$spellimps+1};#math spellimpsa {$spellimps/2};c '$spellcast'}}
+#alias {pracspell4} {#action {You begin to utter some} {#math totalcast {$totalcast+1}}
+#alias {ImpReport} {gt $spellimpsa Improvements out of $totalcast casts.}
+#alias {pracspelloff} {#unaction {$spellmsg};#unaction {No mana to cast that spell!};#unaction {A pulsating $gemstone powerstone has been charged to its maximum capacity!};#unaction {You tell the group '$spellcast Improved!'};#unaction {You begin to utter some}}
+#alias {yawner} {emote yawns.                                                                 +* An Ogre *+ walks in from the south.                                    Domino sends +* An Ogre *+ sprawling to the ground with a powerful bash!       Domino ... .. .V a P o R i Z e. .. ... +* An Ogre *+ with your * AesThEticS * !}
+#alias {scanon} {#action {You walk %0.} {scan};#action {You fly %1.} {scan};#alias {You sneak %2.} {scan}}
+#alias {scanoff} {#unaction {You walk %0.};#unaction {You fly %1.};#unalias {You sneak %2.}}

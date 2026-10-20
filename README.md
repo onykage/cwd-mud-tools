@@ -1,28 +1,18 @@
-# CwD Companion
+# CwD MUD tools
 
-The companion app for [Chat with Dragons](https://dragonchat.app): your surroundings and the
-realm's world map, beside whatever MUD client you play in. The successor to FancyFate, for
-Legends of Fate.
+Tools for playing [Chat with Dragons](https://dragonchat.app) and its first world, Legends of Fate,
+from a desktop MUD client.
 
-**Download:** the [latest release](https://github.com/onykage/cwd-companion/releases/latest),
-for Windows, macOS (Apple Silicon and Intel) and Linux (AppImage). More about it, and how to
-pair it with your account, at [dragonchat.app/companion](https://dragonchat.app/companion).
+| Tool | What it is | Get it |
+|---|---|---|
+| [CwD Companion](companion/) | Your surroundings, health and the whole world map, beside any MUD client. Windows, macOS and Linux. | [Latest release](https://github.com/onykage/cwd-mud-tools/releases/latest) |
+| [FancyFate](fancyfate/) | The original 2005 Legends of Fate map and status window, kept as it was. Windows. | [`fancyfate/`](fancyfate/) |
+| [WinTin](wintin/) | WinTin 1.73, the Windows TinTin++ that many Fate players used, with some period trigger files. Windows. | [`wintin/`](wintin/) |
 
-This repository holds the releases only; the companion is built from the Chat with Dragons
-sources.
+Connect any MUD client to **dragonchat.app**, port **4000**. More at
+[dragonchat.app](https://dragonchat.app), or play in the browser at
+[dragonchat.app/play](https://dragonchat.app/play/).
 
-## First run
-
-The builds aren't signed yet, so the first time you open it:
-
-- **Windows:** SmartScreen says "Windows protected your PC": choose **More info**, then **Run anyway**.
-- **macOS:** open it once; when macOS refuses, go to **System Settings → Privacy & Security** and
-  choose **Open Anyway**.
-- **Linux:** make the AppImage executable (`chmod +x CwD-Companion-*.AppImage`) and run it.
-
-Windows and Linux update themselves. On macOS, the companion tells you when a new version is out.
-
-## Pairing
-
-In the game, type `companion`. It shows a code like `K7QF-M2XP`; enter it in the companion and
-choose **Pair**. Type `companion revoke` in the game to unpair every companion on your account.
+The companion is built from the Chat with Dragons sources and published here as releases.
+FancyFate and WinTin are kept for preservation, as their authors released them; they aren't
+maintained here.

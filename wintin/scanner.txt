@@ -1,0 +1,14 @@
+#nop Chuckle Ewar Scanner version 0.1
+
+
+#var {enemy} {0}
+#var {direction} {null}
+
+#action {%0 is a long ways off %1 from here.} {#var direction %1;scangt}
+#action {%0 is pretty close by %1 from here.} {#var direction %1;scangt}
+#action {%0 is immediately %1 from here.} {#var direction %1;scangt}
+#action {+* %0 *+} {#math enemy $enemy+1}
+
+#alias {scangt} {#if {$enemy>=1} {gt Enemy(s) - $direction;#var enemy 0}}
+
+#alias {testscan} {#showme +* A Orge *+, +* A High-Elf *+, +* A Wild-Elf *+ and a mob is pretty close by west from here.}

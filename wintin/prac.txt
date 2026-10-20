@@ -1,0 +1,10 @@
+#var {swimd} {south}
+
+#action {You swim south.} {#var {swimd} {north};#if $nomana==1 {meditate} else {#if $casting!=1 {$swimd}}}
+#action {You swim north.} {#var {swimd} {south};#if $nomana==1 {meditate} else {#if $casting!=1 {$swimd}}}
+#action {You try to swim but your skill is not great enough!} {#if $casting!=1 {$swimd}} 
+#action {You feel a little bit less tired.} {$swimd}
+#action {You can no longer see in the dark.} {c 'infravision'}
+#action {Your eyes glow red for a moment before fading.} {$swimd}
+#action {Your gem begins to glow softly.} {#var {nomana} {0};stand;$swimd}
+#action {%0 tells you '%1'} {#bell}

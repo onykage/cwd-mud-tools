@@ -1,0 +1,173 @@
+#nop Ewar Rebirth triggers.
+
+#alias {ewar} {#ses {Rebirth} everwar.mudhosting.net 4242}}
+#action {Options: <Player name>, Create <Player name>, or <Quit>.} {#var {xxp} {0};YOURNAME}
+#nop Your password goes here, on your own copy only: #action {Please enter your password:} {YOURPASSWORD}
+
+#message {var}
+
+#highlight {red} {(horrible)}
+#high {red} {(beginner)}
+#high {red} {(poor)}
+#high {red} {(novice)}
+#high {red} {(moderate)}
+#high {red} {(good)}
+#high {red} {(skilled)}
+#high {light red} {(adept)}
+#high {green} {(talented)}
+#high {blue} {(superb)}
+#high {magenta} {(master)}
+#high {cyan} {(perfect)}
+#high {yellow} {(godly)}
+#high {light green} {which will wear off in about a day.}
+#high {green} {which will wear off in about three quarters of a day.}
+#high {green} {which will wear off in about half a day.}
+#high {yellow} {which will wear off in about a quarter of a day.}
+#high {cyan} {which will wear off in a few hours.}
+#high {red} {which will wear off soon.}
+#high {red} {which will wear off very soon.}
+#high {light red} {which will wear off at any moment.}
+#high {red} {Chaos Storm}
+#high {light green} {Creeping Doom}
+
+
+#action {You practice %1.} {prac %1}
+
+#var {gxp} {0}
+#var {ggxp} {0}
+#var {nxp} {0}
+#var {xxp} {0}
+#var {bsk} {0}
+#var {ask} {0}
+#var {msk} {0}
+#var {kill} {0}
+#alias {xpshow} {#showme $gxp XP GAINED THIS KILL;xpshow1;#math {kill} {$kill+1}}
+#alias {xpshow1} {#math {xxp} {$xxp + $gxp};#showme $xxp XP GAINED SINCE LOGIN}
+#alias {skshow} {#showme  $bsk Basic SP, $ask Advanced SP, $msk Master SP;#math {kill} {$kill+1}}
+#action {You gained [%0] experience for the kill and [%1] for fighting and healing.} {#math {ggxp} {%0 + %1};xpshow;#if {$casting!=1} {stand}}
+#action {You gained [%0] experience points for being a new player.} {#math {gxp} {$ggxp + %0}}
+#action {^You gained [%0] total experience including %1 avatar bonus.} {#if $casting!=1 {stand};#math {gxp} {%0};xpshow}
+#action {You've gained [%0] basic skillpoint} {#if $casting!=1 {stand};#math {bsk} {$bsk+%0};skshow}
+#action {You've gained [%0] advanced skillpoint} {#if $casting!=1 {stand};#math {ask} {$ask+%0};skshow}
+#action {You've gained [%0] master skillpoint} {#if $casting!=1 {stand};#math {msk} {$msk+%0};skshow}
+#action {You receive [%0] basic skillpoint experience during your battle.}  {#if $casting!=1 {stand};#math {bsk} {$bsk+%0};skshow}
+#action {You receive [%0] advanced skillpoint experience during your battle.}  {#if $casting!=1 {stand};#math {ask} {$bsk+%0};skshow}
+#action {You receive [%0] master skillpoint experience during your battle.}  {#if $casting!=1 {stand};#math {msk} {$bsk+%0};skshow}
+
+#alias {spstart} {#showme $time WINTIN OPEN}
+#action {%0 WINTIN OPEN} {#var starttime %0}
+#alias {spend} {spreportend}
+#alias {spreport} {#math {timea} {$time-$starttime};#math {timeb} {$timea/60};#math {timec} {$timea/60};#math {timexp} {$timec/60};spreport2}
+#alias {spreport2} {#if {$timeb>=60} {#math {timeb} {$timeb-60}};spreport3}
+#alias {spreport3} {gt SP Gained: $bsk Basic, $ask Advanced, $msk Master in, $timexp hour(s) $timeb minute(s)}
+#alias {spreportend} {#math {timea} {$time-$starttime};#math {timeb} {$timea/60};#math {timec} {$timea/60};#math {timexp} {$timec/60};spreport2end}
+#alias {spreport2end} {#if {$timeb>=60} {#math {timeb} {$timeb-60}};spreport3end}
+#alias {spreport3end} {gt End of XP: SP Gained: $bsk Basic, $ask Advanced, $msk Master, in $timexp hour(s) $timeb minute(s);spreport4end}
+#alias {spreport4end} {#var {bsk} {0};#var {ask} {0};#var {msk} {0};#var {starttime} {0};#var {kill} {0}}
+
+#var {idxxp} {0}
+#var {idxpk} {0}
+#alias {xpstart} {#showme $time WINTIN OPEN}
+#action {%0 WINTIN OPEN} {#var starttime %0}
+#alias {xpend} {xpreportend}
+#alias {idxp} {#math {idxpk} {$xxp/$kill};#math {idxxp} {$xxp/$timexp};#math {idlh} {$idxxp*$timexp};xpreport}
+#alias {xpreport} {#math {timea} {$time-$starttime};#math {timeb} {$timea/60};#math {timec} {$timea/60};#math {timexp} {$timec/60};xpreport2}
+#alias {xpreport2} {#if {$timeb>=60} {#math {timeb} {$timeb-60}};idxp2}
+#alias {idxp2} {gt XP: About $idxxp Per hour, $idxpk Avg. XP per mob, Time Xping: $timexp hour(s) $timeb minute(s), Total XP Gained: $xxp (XP Last hour: $idlh)}
+#alias {xpreportend} {#math {timea} {$time-$starttime};#math {timeb} {$timea/60};#math {timec} {$timea/60};#math {timexp} {$timec/60};xpreport2end}
+#alias {xpreport2end} {#if {$timeb>=60} {#math {timeb} {$timeb-60}};xpreport3end}
+#alias {xpreport3end} {gt End of XP: $xxp xp gained this run, in $timexp hour(s) $timeb minute(s);xpreport4end}
+#alias {xpreport4end} {#var {xxp} {0};#var {starttime} {0};#var {kill} {0}}
+
+#action {%0 tells the group 'med'} {#if {$casting!=1} {meditate}}
+#action {%0 tells the group 'regen'} {#if {$casting!=1} {meditate}}
+
+#var {targ} {enemy}
+#alias {targ} {#var targ %0}
+
+#alias {VK_NUMPAD8} {north}
+#alias {VK_NUMPAD2} {south}
+#alias {VK_NUMPAD4} {west}
+#alias {VK_NUMPAD6} {east}
+#alias {VK_NUMPAD5} {k enemy;kill enemy}
+#alias {VK_NUMPAD7} {down}
+#alias {VK_NUMPAD9} {up}
+#alias {VK_NUMPAD1} {k 1.}
+#alias {VK_NUMPAD0} {bs 1.}
+#alias {VK_NUMPAD3} {$cast $targ} 
+
+#var {casting} {0}
+#var {food} {0}
+#action {^(Casting) %0hp} {#var {casting} {1}}
+#action {^%0hp} {#var {casting} {0}} 
+#action {You are beginning to get hungry... better get some food.} {#if $casting!=1 {c 'create food'}}
+#action {You reach into the ethereal plane and pull a magic mushroom into reality.} {#math {food} {$food+1};#if {$food<3} {c 'create food'} else {eat mushroom;eat mushroom;eat mushroom}}
+#action {You are full.} {#var {food} {0}}
+#action {You are beginning to get thirsty.} {#if $casting!=1 {drink}}
+
+#alias {scanon} {#action {You walk %0.} {scan};#action {You fly %0.} {scan};#action {You swim %0.} {scan}}
+#alias {scanoff} {#unaction {You walk %0.};#unaction {You fly %0.};#unaction {You swim %0.}}
+
+#action {%0 floats gently up in the air.} {#if {$casting!=1} {fly}}
+#action {%0 tells the group 'up'} {#if {$casting!=1} {stand}}
+#action {%0 tells the group 'med'} {#if {$casting!=1} {meditate}}
+
+#var {nomana} {0}
+#action {You don't have enough magical energy of the right element to cast that spell.} {#var nomana {1}}
+#action {%1hp %0mv} {#var {mvs} {%0};#if $nomana!=1 {#if $casting!=1 {#if $mvs<80 {c 'refresh'}}}}
+#action {Your gem begins to glow softly.} {#var {nomana} {0}}
+
+#action {You notice a rusted chalice lying discretely on the ground.} {get chalice}
+#action {A powerful wind reveals a holy parchment at the feet of the corpse.} {get parchment}
+#action {A shard of an immortal's heart lies on the ground.} {get shard}
+#action {You lost your concentration.} {!}
+
+#action {%0hp} {#showme {TYPE DRUID OR OTHER CLASSES TO LOAD CLASS FILE!};#unaction {%0hp}}
+#alias {druid} {#read druid.txt}
+#alias {cleric} {#read cleric.txt}
+#alias {reload} {#kill all;#read ewar.txt}
+#alias {practice} {#read prac.txt}
+#alias {pracoff} {#kill all;#read ewar.txt}
+
+#action {[BONUS]: a holy doll of the %0 powers drops to the floor.} {#var {bonus} {doll};get doll}
+#action {[BONUS]: a shard of an immortal's heart drops to the floor.} {#var {bonus} {shard};get shard}
+#action {[BONUS]: %0 wins the random dice!} {#if %0==YOURNAME {put $bonus in sack} else {give $bonus %0}}
+
+#action {%0 is using:} {#var lname %0;#var {lc} {1}}
+#action {<%0>   %1 (%2)} {#if $lc==1 {#var luse %0;#var litem %1;#var lcond %2}}
+#alias {lc} {look %0;#if $lc==1 {gt <$luse>   $litem ($lcond) $lname;#math lc {0}}}
+#alias {lct} {trade <$luse>   $litem ($lcond) - $lname}
+
+#action {A miniature replica doll of a powerful deity is carved from soapstone.} {get doll}
+
+#var {xprarea} {Waiting for Rumour}
+#var {sprarea} {Waiting for Rumour}
+#var {srarea} {Waiting for Rumour}
+#var {tworarea} {Waiting for Rumour}
+#var {grarea} {Waiting for Rumour}
+#action {[Rumour]: A large number of warriors are converging near %0.} {#var xprarea %0}
+#action {[Rumour]: The warriors have left %0} {#var xprarea None}
+#action {[Rumour]: A group of skill trainers have been sighted at %0.} {#var sprarea %0}
+#action {[Rumour]: The skill trainers have left %0} {#var sprarea None}
+#action {[Rumour]: Treasure seekers are flocking in droves towards %0.} {#var tworarea %0}
+#action {[Rumour]: The treasure seekers have left %0} {#var tworarea None}
+#action {[Rumour]: Shards have been raining from the sky at %0.} {#var srarea %0}
+#action {[Rumour]: The shards have stopped falling from the sky at %0} {#var lsrarea %0}
+#action {[Rumour]: Bandits have been robbing from the rich at %0.} {#var grarea %0}
+#action {[Rumour]: The bandits have left %0} {#var grarea None}
+#action {Shards         %0   	%1} {#var srarea %1}
+#action {Treasure       %0   	%1} {#var tworarea %1}
+#action {Trainers       %0   	%1} {#var sprarea %1}
+#action {Warriors       %0   	%1} {#var xprarea %1}
+#action {Bandits        %0   	%1} {#var grarea %1}
+
+#alias {rrpt} {gt Bonus Report: XP: $xprarea SP: $sprarea x2Loads: $tworarea Shards: $srarea Gold: $grarea;rrpt1}
+#alias {rrpt1} {gt Last area Shards were in: $lsrarea}
+#alias {rchat} {chat Bonus Report: XP: $xprarea SP: $sprarea x2Loads: $tworarea Shards: $srarea Gold: $grarea}
+#action {--> %0 tells you 'rumours'} {#if $casting!=1 {tell %0 Bonus Report: XP: $xprarea SP: $sprarea x2Loads: $tworarea Shards: $srarea Gold: $grarea;tell %0 Last area Shards were in: $lsrarea}}
+
+#alias {stitle} {title --- $B$4E$0x$7i$0l$4e $N- $B$5Du$N$5a$Bl$N$5i$Bng}
+#alias {dtitle} {title --- $B$4E$0x$7i$0l$4e $N- $B$2Cr$N$2e$Bep$N$2i$Bng}
+#alias {dtitle2} {title --- $B$4E$0x$7i$0l$4e $N- $B$4Do$0o$4m}
+#alias {ltitle} {title --- $B$4E$0x$7i$0l$4e $N- $B$4Ca$N$4p$B$0t$N$4a$Bin}
+#nop title ------ $B$4E$0x$7i$0l$4e $N- $B$4T$6a$N$4n$B$0k

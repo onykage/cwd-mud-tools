@@ -1,0 +1,55 @@
+#action {Current Lvl : %0} {#var {level} {%0};#if $level>=12 {#var {cast} {c 'insect swarm'}};#if $level>=33 {#var {cast} {c 'cloud of locusts'}};#if $level>=52 {#var {cast} {c 'insect fury'}};#if $level>=58 {#var {cast} {c 'wrath of nature'}};#if $level>=65 {#var {cast} {c 'finger of death'}}}
+
+#alias {setprompt} {prompt $3$B*hn*$Rhp $B$2*mn*$Rmv $B$5*mnn*$Rm Stn:*kw* [*phi*][*shi*] ($B$5*xl*$R) ($B$4*trk*$R) (SELF:*hw*) *fi**tk*>}
+
+#action {%0 resisted the effects of your spell!} {#math {csresist} {1}}
+#action {Numerous roots and vines raise from the ground reaching for %0.} {#if $csresist!=1 {gt <<<<< %0 is Chaos stormed!!! >>>>>};#math {csresist} {0}}
+#action {... Intruders have been sighted at %0} {gt Enemy(s) in %0;raid Spirits tell me, there are Enemy(s) in %0}
+#action {Timer has expired, removing trap type} {#if $casting!=1 {gt I have lost my connection with the spirits!}}
+
+#alias {ct} {c 'chill touch'}
+#alias {pro} {c 'protection'}
+#alias {hl} {c 'heal light'}
+#alias {dust} {c 'dust devil'}
+#alias {cf} {c 'create food'}
+#alias {cp} {c 'neutralize poison'}
+#alias {poi} {c 'poison'}
+#alias {dog} {c 'summon dog'}
+#alias {is} {c 'insect swarm'}
+#alias {aa} {c 'acid arrow'}
+#alias {weak} {c 'weaken'}
+#alias {light} {c 'lightning'}
+#alias {hs} {c 'heal serious'}
+#alias {bar} {c 'barrier'}
+#alias {ref} {c 'refresh'}
+#alias {vor} {c 'vortex'}
+#alias {spring} {c 'create spring'}
+#alias {ff} {c 'faerie fire'}
+#alias {enta} {c 'entangle'}
+#alias {cloud} {c 'cloud of locusts'}
+#alias {rej} {c 'rejuvenation'}
+#alias {ri} {c 'repel insects'}
+#alias {gust} {c 'gust of wind'}
+#alias {skin} {c 'skin of wood'}
+#alias {trans} {c 'transference'}
+#alias {aura} {c 'tranquility'}
+#alias {tranq} {c 'tranquility'}
+#alias {whirl} {c 'whirlwind'}
+#alias {nature} {c 'natures fervor'}
+#alias {woe} {c 'ward of electricity'}
+#alias {cyc} {c 'cyclone'}
+#alias {cli} {c 'chain lightning' $targ}
+#alias {if} {c 'insect fury'}
+#alias {cs} {c 'chaos storm' $targ}
+#alias {winds} {c 'winds of the zephyr'}
+#alias {won} {c 'wrath of nature'}
+#alias {fod} {c 'finger of death'}
+#alias {eos} {c 'essence of shillelagh'}
+#alias {cd} {c 'creeping doom' $targ}
+#alias {doom} {remove sym;remove sym;remove diamond;remove diamond;get all.bracelet from sack;get all.symbol from sack;wear talice;wear talice;wear emerald;wear emerald;put all.symbol in sack;put all.bracelet in sack}
+#alias {fing} {remove sym;remove sym;remove emerald;remove emerald;get all.bracelet from sack;get all.symbol from sack;wear xix;wear xix;wear diamond;wear diamond;put all.symbol in sack;put all.bracelet in sack}
+
+#alias {spellup} {#action {^A strange mist forms around your body and seeps into your skin.} {c 'barrier'};#action {^You create a thin layer of protective magic around your body.} {c 'skin of wood'};#action {^Your skin becomes as strong as wood.} {spellup2;c 'repel insects'}}
+#alias {spellup2} {#action {^A hideous smelling mist condenses on your skin.} {c 'ward of ele'};#action {^You are surrounded by a protective ward against electricity.} {c 'nature'};#action {You are blessed with natures fervor.} {c 'essence'};#action {^You are filled with the Essence of Shillelagh.} {spellup3;swap;c 'detect invis'}}
+#alias {spellup3} {#action {^Your eyes become translucent for a moment before fading.} {c 'detect hidden'};#action {^Your eyes glow black for a moment before fading.} {spellup4;c 'infra'}}
+#alias {spellup4} {#unaction {^A strange mist forms around your body and seeps into your skin.};#unaction {^You create a thin layer of protective magic around your body.};#unaction {^Your skin becomes as strong as wood.};#unaction {^A hideous smelling mist condenses on your skin.};#unaction {^You are surrounded by a protective ward against electricity.};#unaction {You are blessed with natures fervor.};#unaction {^You are filled with the Essence of Shillelagh.};#unaction {^Your eyes become translucent for a moment before fading.};#unaction {^Your eyes glow black for a moment before fading.}}

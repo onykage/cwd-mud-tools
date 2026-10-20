@@ -1,0 +1,46 @@
+#sub {%5[%0- %1-%2]    %3      %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%5[%0- %1-%2]    %3       %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%5[%0- %1-%2]    %3        %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%5[%0- %1-%2]    %3         %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%5[%0- %1-%2]    %3          %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%5[%0- %1-%2]    %3           %4} {%5[%0-%1-%2]  N:%3    HPP:%4}
+#sub {%3[--------]    %1      %2} {%3[--------]  N:%1    HPP:%2}
+#sub {%3[--------]    %1       %2} {%3[--------]  N:%1    HPP:%2}
+#sub {%3[--------]    %1        %2} {%3[--------]  N:%1    HPP:%2}
+#sub {%3[--------]    %1         %2} {%3[--------]  N:%1    HPP:%2}
+#sub {%3[--------]    %1          %2} {%3[--------]  N:%1    HPP:%2}
+#high {light blue} {[%0-%1-%2]  N:%3    HPP:%4}
+
+#sub {Group PK-Index : [%0 of %1]} {Group PK-Index : %0 of %1}
+
+#action {[%4-%5-%6]  N:%1    HPP:%0 } {#var {hpp} {%0};#showme %1 $hpp;#if $hpp<65 {c 'divine intervention' %1}else {#if $hpp<75 {c 'healing' %1} else {#if $hpp<90 {c 'heal critical' %1}}}}}
+#action {[--------]  N:%1    HPP:%0 } {#var {hpp} {%0};#showme %1 $hpp;#if $hpp<65 {c 'divine intervention' %1} else {#if $hpp<75 {c 'healing' %1} else {#if $hpp<90 {c 'heal critical' %1}}}}
+
+#nop #action {[%4-%5-%6]  N:%1    HPP:%0  %2 } {#if {%0<=100} {#showme %1 does not need healing!} else {#if {%0<=85} {#showme %1 needs to be healed!}} else {#if {%0<=75} {#showme %1 should be healed now!}} else {#if {%0<50} {#showme HEAL %1 RIGHT NOW!!}}}
+
+#action {%0 sends %1 sprawling backwards on to the ground with a powerful bash!} {#if $casting!=1 {gr}}
+
+#var {onename} {NO ONE}
+#var {twoname} {NO ONE}
+#var {threename} {NO ONE}
+#var {fourname} {NO ONE}
+#var {fivename} {NO ONE}
+#var {sixname} {NO ONE}
+#var {onehpp} {100}
+#var {twohpp} {100}
+#var {threehpp} {100}
+#var {fourhpp} {100}
+#var {fivehpp} {100}
+#var {sixhpp} {100}
+
+#nop #action {^1.[%4-%5-%6]  N:%1    HPP:%0 } {#math {onehpp} {%0};#var onename %1;#var heal $onename;#math {hpp} {$onehpp}}
+#nop #action {^2.[%4-%5-%6]  N:%1    HPP:%0 } {#var twoname %1;#math {twohpp} {%0};#if $twohpp<$onehpp {#var heal $twoname;#math {hpp} {$twohpp}}}
+#nop #action {^3.[%4-%5-%6]  N:%1    HPP:%0 } {#var threename %1;#math {threehpp} {%0};#if $threehpp<$twohpp {#var heal $threename;#math {hpp} {$threehpp}};#if $threehpp<$onehpp {#var heal $threename;#math {hpp} {$threehpp}}}
+#nop #action {^4.[%4-%5-%6]  N:%1    HPP:%0 } {#var fourname %1;#math {fourhpp} {%0};#if $fourhpp<$threehpp {#var heal $fourname;#math {hpp} {$fourhpp}};#if $fourhpp<$twohpp {#var heal $fourname;#math {hpp} {$fourhpp};#if $fourhpp<$onehpp {#var heal $fourname;#math {hpp} {$fourhpp}}
+#nop #action {^5.[%4-%5-%6]  N:%1    HPP:%0 } {#var fivename %1;#math {fivehpp} {%0};#if $fivehpp<$fourhpp {#var heal $fivename;#math {hpp} {$fivehpp};#if $fivehpp<$threehpp {#var heal $fivename;#math {hpp} {$fivehpp};#if $fivehpp<$twohpp {#var heal $fivename;#math {hpp} {$fivehpp};#if $fivehpp<$onehpp {#var heal $fivename;#math {hpp} {$fivehpp}}
+#nop #action {^6.[%4-%5-%6]  N:%1    HPP:%0 } {#var sixname %1;#math {sixhpp} {%0};#if $sixhpp<$fivehpp {#var heal $sixname;#math {hpp} {$sixhpp};#if $sixhpp<$fourhpp {#var heal $sixname;#math {hpp} {$sixhpp};#if $sixhpp<$threehpp {#var heal $sixname;#math {hpp} {$sixhpp};#if $sixhpp<$twohpp {#var heal $sixname;#math {hpp} {$sixhpp};#if $sixhpp<$onehpp {#var heal $sixname;#math {hpp} {$sixhpp}}
+
+#nop #action {Group Members  : [%0]} {#showme $heal $hpp;#showme $onename - HP:$onehpp $twoname - HP:$twohpp $threename - HP:$threehpp $fourname - HP:$fourhpp $fivename - HP:$fivehpp $sixname - HP:$sixhpp;#if $hpp<75 {c 'healing' $heal} else {#if $hpp<85 {c 'heal critical' $heal}}}
+
+#action {%0 circles} {#if $casting!=1 {group}}
+#action {%0 steps out of the shadows and into the fray!} {meditate}
