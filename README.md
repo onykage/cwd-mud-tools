@@ -14,5 +14,6 @@ Connect any MUD client to **dragonchat.app**, port **4000**. More at
 [dragonchat.app/play](https://dragonchat.app/play/).
 
 The companion is built from the Chat with Dragons sources and published here as releases.
-FancyFate and WinTin are kept for preservation, as their authors released them; they aren't
-maintained here.
+FancyFate (by Brotten) and WinTin (by William Lees, from TinTin++) are kept for preservation,
+as their authors released them, and aren't maintained here. Each folder's README credits everyone
+whose work it holds.
